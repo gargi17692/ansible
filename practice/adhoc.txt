@@ -1,0 +1,22 @@
+ansible all -m ansible.builtin.command -a 'uptime'
+ansible all -m ansible.builtin.package -a 'name=nginx state=present' -b # to run the command with sudo or root privilages
+
+we can execute one task at a time bu we can execute the task in any no of nodes.
+
+to run a playbook :  ansible-playbook demo.yml (playbookname)
+
+* absible ad-hoc commands or playbooks need modules to execute task/operations.
+
+* Module is a small program (python program) to compute or execute our tasks on remote servers.
+Module Name (from 2.10) : nameSpace.collection.module
+List Available Modules : ansible-doc -l
+No of Available Modules : ansible-doc -l | wc -l
+Search for required module : ansible-doc -l | grep <module/SearchString>
+Get help/documentation for required module : ansible-doc <moduleName as nameSpace.collection.module>
+
+Ad-hoc command syntax with module : ansible <host-pattern> -m <moduleName> [<-a arguments>]
+
+* All ansible-adhoc commands or playbooks are specifc to your project(location).
+
+eg: ansible 44.203.170.125 -m ansible.builtin.ping
+

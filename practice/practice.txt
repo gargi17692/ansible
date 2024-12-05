@@ -1,0 +1,2 @@
+ansible all -m ansible.builtin.command -a 'uptime'
+ansible all -m ansible.builtin.package -a 'name=nginx state=present' -b # to run the command with sudo or root privilages
