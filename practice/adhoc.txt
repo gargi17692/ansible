@@ -20,3 +20,92 @@ Ad-hoc command syntax with module : ansible <host-pattern> -m <moduleName> [<-a 
 
 eg: ansible 44.203.170.125 -m ansible.builtin.ping
 
+Quotations for Arguments in ansible ad-hoc command
+----------------------------------------------------
+ansible all -m ansible.builtin.shell -a date 
+ansible all -m ansible.builtin.shell -a free -mh # it won't work
+ansible all -m ansible.builtin.shell -a "free -mh"
+ansible all -m ansible.builtin.shell -a "free -mh | grep 'Mem'"
+ansible all -m ansible.builtin.shell -a "free -mh | grep 'Mem' | tr -s ' ' | cut -d ' ' -f2"
+
+File Module :-
+----------------
+ansible all -m ansible.builtin.file -a "path=/temp/demo.txt state=touch mode='0755'" # to create a file
+ansible all -m ansible.builtin.command -a "ls -lrt /temp" # to check the file present or not using command module
+ansible all -m anisible.builtin.file -a "path=/temp/demo" # to check the file present or not using file module
+
+ansible all -m anisible.builtin.file -a "path=/temp/demo mode='0777'"
+ansible all -m anisible.builtin.file -a "path=/temp/demo state=absent" # to delete the file
+
+stat module  :-
+-------------------
+ansible all -m ansible.builtin.stat -a "path=/workspacs/ansible/practice/adhoc.txt"
+ansible all -m ansible.builtin.stat -a "path=/workspacs/ansible/practice/"
+
+copy module :-
+-----------------
+ansible <host-pattern> -m ansible.builtin.copy -a "src=/temp/demo.txt dest=home/ansadmin/demo.txt mode='0644' backup=yes"
+
+inlinefile module :-
+---------------------------
+ansible <host-pattern> -m ansible.builtin.inlinefile -a "path=/tmp/demo line='demo line' "
+*It works on the file if the file exits in remotelocation
+
+ansible <host-pattern> -m ansible.builtin.inlinefile -a "path=/tmp/demo line='another demo line' insertafter='file'"
+ansible <host-pattern> -m ansible.builtin.inlinefile -a "path=/tmp/demo line='one more demo line' inserafter='file' firstmatch=yes"
+ansible all -m ansible.builtin.command -a "cat /tmp/demo.txt"
+ansible <host-pattern> -m ansible.builtin.inlinefile -a "path=/tmp/demo line='This is with regx' regx='demo line'" # replcing a SearchString
+ansible <host-pattern> -m ansible.builtin.inlinefile -a "path=/tmp/demo regx='demo line' state=absent" # deleting a string line
+
+fetch module :-
+------------------
+ansible <host-name> -m ansible.builtin.fetch -a "src=/tmp/demo.txt dest=/home/ansadmin/downloads"
+ansible all -m ansible.builtin.fetch -a "src=/tmp/demo.txt dest=/home/ansadmin/downloads flat=true"
+ansible <host-name> -m ansible.builtin.fetch -a "src=/tmp/demo.txt dest=/home/ansadmin/downloads/{{inventory_hostname}}_demo.txt flat=true"
+
+modules to download packages :-
+----------------------------------
+ansible <host-name> -m ansible.builtin.yum -a "name=nginx state=present" -b
+ansible <host-name> -m ansible.builtin.yum -a "name=nginx state=absent" -b
+ansible <host-name> -m ansible.builtin.yum -a "name=nginx state=latest" -b
+
+ansible <host-name> -m ansible.builtin.apt -a "name=nginx state=present" -b
+
+workig with ad-hoc commands within controller node :-
+-----------------------------------------------------------
+ansible localhost -m ansible.builtin.ping
+
+*In order to working with other modules we have to generate ssh keys under user/home directory; now copy the public key (id_rsa.pub)
+and paste it inside authorized_keys file also provide 600 (rw) permission to authorized_keys file.
+Now u can execute any ansible ad-hoc commands on the controller node
+
+eg; ansible localhost -m ansible.builtin.command -a 'ansible --version'
+
+executing ad-hoc command using real time userid and password :-
+-------------------------------------------------------------------
+ansible all -m ansible.builtin.command -a 'java -version' -k -u abc123
+
+*If u don't want to pass userid on the termianl, then add the userid and password inside inventory file
+vi inventory
+18.221.13.142
+44.203.177.125
+
+[all:vars]
+ansible_user=abc123
+ansible_ssh_pass=abc123
+:wq
+
+eg; ansible all -m ansible.builtin.command -a 'ansible --version'
+    ansible all -m ansible.builtin.ping 
+
+working with different environments :-
+------------------------------------------
+ansible all -m ansible.builtin.ping -i prodInv
+ansible all -m ansible.builtin.ping -i testInv
+
+ansible dev --list
+ansible prod --List
+
+ansible dev -m ansible.builtin.ping
+ansible prod,44.120.122.23 -m ansible.builtin.ping
+
