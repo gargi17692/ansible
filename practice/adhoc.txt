@@ -109,3 +109,27 @@ ansible prod --List
 ansible dev -m ansible.builtin.ping
 ansible prod,44.120.122.23 -m ansible.builtin.ping
 
+*Using ad-hoc command by shellscript
+----------------------------------------
+vi javaversions.sh
+ansible ${1} -m ansible.builtin.shell -a "java -version 2>&1 | grep version"
+
+now while running : ./javaversions.sh 44.120.122.33
+
+Ansible facts :-
+----------------------
+ansible all -m ansible.builtin.setup
+ansible 34.201.250.40 -m ansible.builtin.setup
+ansible all -m ansible.builtin.setup -a "filter=ansible_distribution"
+
+Ansible Custom facts :-
+-------------------------
+*Create fact.d directory in all manage nodes and create scripts as eg; java.fact (<filename.fact>)
+ansible all -m ansible.builtin.file -a "path=/etc/ansible/facts.d state=directory" -b 
+
+Then copy the .fact file to all manage nodes
+ansible all -m ansible.builtin.copy -a "src=/workspaces/ansible/practice/java.fact dest=/etc/ansible/facts.d/java.fact mode=0755" -b
+
+Now you can run ansible ad_hoc command wiith setup module so that you can expect java version in the out put.
+ansible all -m ansible.builtin.setup
+ansible all -m anisible.builtin.setup -a "filter=ansible_local"
