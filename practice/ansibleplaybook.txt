@@ -1,0 +1,2 @@
+eg; ansible dev -m ansible.builtin.apt -a "name=httpd state=present" -b
+
