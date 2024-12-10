@@ -1,0 +1,25 @@
+---
+ - hosts: localhost
+   vars:
+     a: 6
+     b: 10
+     c: 'hi'
+     d: 'bye'
+     e: 'bye'
+
+   gather_facts: false
+   tasks:
+     - ansible.builtin.debug:
+          msg:
+           - "The value of a is : {{a}} and the value of b is : {{b}}"
+           - "a == b : {{ a == b }}"
+           - "a != b : {{ a != b }}"
+           - "a > b : {{ a > b }}"
+           - "a < b : {{ a < b }}"
+           - "a >= b : {{ a >= b }}"
+           - "a <= b : {{ a <= b }} "
+           - "Bellow are for strings"
+           -  "c= {{c}} d= {{d}} e= {{e}}"
+           - "c == d : {{ c == d }}"
+           - "c != d : {{ c != d }}"
+           - "d == e : {{ d == e }}"

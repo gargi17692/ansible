@@ -1,0 +1,15 @@
+---
+ - hosts: localhost
+   vars:
+     a: [4,5,6]
+     b: 4
+   gather_facts: false
+   tasks:
+     - ansible.builtin.debug:
+          msg:
+           - "The list for x is : {{x}} and the value of y is : {{y}}"
+           - "b in a : {{ b in a }}"
+           - "6 in a : {{ 6 in a }}"
+           - "10 in a : {{ 10 in a}}"
+           -  "20 not in a : {{ 20 not in a}}"
+           -  "b not in a : {{ b not in a }}"
