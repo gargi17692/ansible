@@ -1,0 +1,17 @@
+---
+ - hosts: localhost
+   vars:
+     myvalue: 4
+     #  myList:
+     #    - 3
+     #    - 4
+     #    - 5
+     myList: [3,4,5]
+     #  myDist: 
+     #    myFirst: 4
+     #    mySecond: 6
+     myDist: {'myFirst': 4, 'mySecond': 6}
+   gather_facts: false
+   tasks:
+     - ansible.builtin.debug
+         msg: "{{myvalue}} {{myList}} {{myDist}}"

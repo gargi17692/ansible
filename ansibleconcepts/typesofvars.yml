@@ -1,0 +1,17 @@
+---
+ - hosts: localhost
+   vars:
+     a: 4
+     b: 6.5
+     c: vrttechnology
+     d: "Gargi Sarada Das"
+     e: true
+   gather_facts: false
+   tasks:
+     - ansible.builtin.debug:
+          msg:
+           - "a value is : {{a}} ans it's data_type is : {{a|ansible.builtin.type_debug}}"
+           - "b value is : {{b}} ans it's data_type is : {{b|ansible.builtin.type_debug}}"
+           - "c value is : {{c}} ans it's data_type is : {{c|ansible.builtin.type_debug}}"
+           - "d value is : {{d}} ans it's data_type is : {{d|ansible.builtin.type_debug}}"
+           - "e value is : {{e}} ans it's data_type is : {{e|ansible.builtin.type_debug}}"

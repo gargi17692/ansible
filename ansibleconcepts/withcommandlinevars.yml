@@ -1,0 +1,14 @@
+---
+ - hosts: localhost
+   gather_facts: false
+   tasks:
+     - ansible.builtin.debug:
+         msg:
+          - "x value is : {{x}}"
+
+# to run with vars
+ansible-playbook withcommandlinevars.yml --extra-vars "x=hi" or <'x=hi'>
+ansible-playbook withcommandlinevars.yml -e 'x=hi y=bye'
+ansible-playbook withcommandlinevars.yml -e '{"x":"hi" , "y":"bye"}'
+ansible-playbook withcommandlinevars.yml -e '{"x":[4,5,6] , "y":6}'
+ansible-playbook withcommandlinevars.yml -e '{"x":[4,5,6] , "y":{'a':'first', 'b':'second'}}'

@@ -1,0 +1,10 @@
+---
+ - hosts: localhost
+   vars:
+     x: 2
+     y: 6
+     my_name: gargi
+   gather_facts: false
+   tasks:
+     - ansible.builtin.debug:
+          msg: "x value is : {{x}} y value is : {{y}} myName is : {{my_name}}"

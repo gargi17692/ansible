@@ -1,0 +1,19 @@
+eg; ansible dev -m ansible.builtin.apt -a "name=httpd state=present" -b
+    ansible all -m ansible.builtin.debug -a 'message="Welcome to ansible playbooks"'
+
+For syntax check :-
+-----------------------------
+ansible-playbook install_webserver.yml --syntax-check
+or
+ansible-lint install_webserver.yml 
+
+# to run with vars
+ansible-playbook withcommandlinevars.yml --extra-vars "x=hi" or <'x=hi'>
+ansible-playbook withcommandlinevars.yml -e 'x=hi y=bye'
+ansible-playbook withcommandlinevars.yml -e '{"x":"hi" , "y":"bye"}'
+ansible-playbook withcommandlinevars.yml -e '{"x":[4,5,6] , "y":6}'
+ansible-playbook withcommandlinevars.yml -e '{"x":[4,5,6] , "y":{'a':'first', 'b':'second'}}'
+
+*host_vars and group_vars :-
+--------------------------------
+ansible-playbook hostvars_groupvars.yml

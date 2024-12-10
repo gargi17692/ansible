@@ -1,0 +1,13 @@
+---
+ - hosts: localhost
+   var_files:
+     - varswithYaml.yml
+     - varswithJson.json
+   gather_facts: false  
+   tasks:
+     - ansible.builtin.debug:
+         msg:
+          - "myvar : {{myvar}}"
+          - "mydict : {{mydict}}"
+
+# ansible-playbook readvarsfromfile.yml  # to execute the playbook
