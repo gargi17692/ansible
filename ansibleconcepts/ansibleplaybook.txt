@@ -17,3 +17,11 @@ ansible-playbook withcommandlinevars.yml -e '{"x":[4,5,6] , "y":{'a':'first', 'b
 *host_vars and group_vars :-
 --------------------------------
 ansible-playbook hostvars_groupvars.yml
+
+*Compare to host specific variables vars specific varables have more priority.
+ansible-playbook hostvars_groupvars.yml
+*Compare to group specific variables host specific varables have more priority.
+ansible-playbook hostvars_groupvars.yml
+
+*set_fact is a module to define intermediate or to redefine a new value for existing variable based on 
+ with or without condition. 
