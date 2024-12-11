@@ -1,0 +1,11 @@
+---
+ - hosts: localhost
+   vars:
+     myfile: /workspaces/ansible/ansibleconcepts/ansibleplaybook.txt
+   gather_facts: false
+   tasks:
+    - name: Displaying fileName using debug module
+      ansible.builtin.debug:
+        msg:
+         - "The file is : {{myfile}}"
+      when: myfile is exists 

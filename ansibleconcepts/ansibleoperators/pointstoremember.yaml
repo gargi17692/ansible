@@ -1,0 +1,18 @@
+---
+ - hosts: localhost
+   vars:
+     mylist: [4,5,6]
+     mynewlist:
+       - 6
+       - 8
+       - 2
+     mydict: { 'linux.service': 'httpd', 'ubuntu': 'apache2' }
+     mynewdict:
+        linux: httpd
+        ubuntu: apache2
+   gather_facts: false
+   tasks:
+     - ansible.builtin.debug:
+          msg:
+           - "mylist : {{mylist}}"
+           - "mydict : {{mydict}}"

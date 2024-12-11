@@ -1,0 +1,15 @@
+---
+ - hosts: localhost
+   vars:
+     mydict: { 'linux.service': 'httpd', 'ubuntu': 'apache2' }
+   gather_facts: false
+   tasks:
+     - ansible.builtin.debug:
+          msg:
+           - "mydict : {{mydict}}"
+           #  - "mydict keys are : {{mydict|keys}}" # keys filter is not there in ansible
+           - "mydict keys are : {{mydict.keys()}}"
+           - "mydict values are : {{mydict.values()}}"
+           - "linux key value with get is : {{mydict.get('linux.service')}}"
+           - "linux key value with [] is : {{mydict['linux.service'])}}"
+           #  - "linux key value is : {{mydict.linux.service}}"
