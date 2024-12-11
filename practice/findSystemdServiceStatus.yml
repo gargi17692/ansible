@@ -1,0 +1,13 @@
+---
+ - name: Play to use systemd facts
+   hosts: localhost
+   gather_facts: false
+   tasks:
+    - name: Finding systemd facts using service_facts module
+      ansible.builtin.service_facts:
+    - name: Display systemd facts
+      ansible.builtin.debug:
+        # msg: "{{ansible_facts}}"
+        # msg: "{{ansible_facts.services['nginx.service']}}"
+        # msg: "{{ansible_facts.services['nginx.service'].state}}"
+         msg: "{{ansible_facts.services['sshd.service'].state}}"
