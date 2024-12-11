@@ -3,7 +3,7 @@
    hosts: {{targets}}
    gather_facts: false
    tasks:
-    - name: Excutong phthonversion command using command module
+    - name: Excuting phthonversion command using command module
       ansible.builtin.command:
         cmd: 'python --version'
       register: pythonVersion

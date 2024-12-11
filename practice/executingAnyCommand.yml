@@ -1,0 +1,25 @@
+---
+ - name: Play to execute any command
+   hosts: {{targets}}
+   gather_facts: false
+   tasks:
+    - name: Excuting Given command
+      ansible.builtin.command:
+        cmd: "{{inputCmd}}"
+      register: cmdOutput
+    - name: Displaying Result 
+      ansible.builtin.debug:
+       msg: "{{cmdOutput.stdout if cmdOutput.stdout | length != 0 else cmdOutput.stderr}}"
+    # - name: Displaying Result 
+    #   ansible.builtin.debug:
+    #    msg: "{{cmdOutput.stdout}}"
+    #   when: cmdOutput.stdout | length != 0
+    # - name: Displaying Result
+    #   ansible.builtin.debug:
+    #    msg: "{{cmdOutput.stderr}}"
+    #   when: cmdOutput.stderr | length != 0
+
+
+# ansible-playbook executingAnyCommand.yml -e "targets=localhost inputcmd='python --version'"
+# ansible-playbook executingAnyCommand.yml -e "targets=localhost inputcmd='java -version'"
+# ansible-playbook executingAnyCommand.yml -e "targets=localhost inputcmd='uname -a'"

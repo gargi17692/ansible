@@ -3,7 +3,7 @@
    hosts: {{targets}}
    gather_facts: false
    tasks:
-    - name: Excutong java version command using command module
+    - name: Excuting java version command using command module
       ansible.builtin.command:
         cmd: 'java -version'
       register: javaVersion
