@@ -1,0 +1,17 @@
+---
+ - name: Playbook to find Java version
+   hosts: {{targets}}
+   gather_facts: false
+   tasks:
+    - name: Excutong java version command using command module
+      ansible.builtin.command:
+        cmd: 'java -version'
+      register: javaVersion
+    - name: Displaying java version using debug module
+      ansible.builtin.debug:
+       msg:
+        # - "javaVersion is: {{(javaVersion.stderr|split)[2]|trim('\"')}}"
+        - "{{javaVersion.stderr|split('\"')[1]}}"
+
+# ansible-playbook findjavaversion.yaml -e "targets=localhost"
+# ansible-playbook findjavaversion.yaml -e "targets=dev"
