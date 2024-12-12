@@ -1,0 +1,35 @@
+  # ---
+  # - name: Play to install nginx and start it
+  #   hosts: localhost
+  #   gather_facts: false
+  #   become: true
+  #   tasks:
+  #     - name: Installing nginx
+  #       ansible.builtin.dnf:
+  #         name: nginx
+  #         state: present
+  #       register: output
+  #         update_cache: true
+  #      - name: Start nginx
+  #         ansible.builtin.service:
+  #           name: nginx
+  #           state: started
+  #       when: output.changed
+
+---
+ - name: Play to install nginx and start it
+    hosts: localhost
+    gather_facts: false
+    become: true
+    tasks:
+      - name: Installing nginx
+        ansible.builtin.dnf:
+          name: nginx
+          state: present
+          update_cache: true
+        notify: Start nginx 
+    handlers:
+      - name: Start nginx
+        ansible.builtin.service:
+          name: nginx
+          state: started 
