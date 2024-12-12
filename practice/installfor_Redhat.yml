@@ -1,0 +1,6 @@
+---
+ - name: Installing webserver on RHEL server
+       ansible.builtin.yum:
+         name: httpd
+         state: present
+         update_cache: true

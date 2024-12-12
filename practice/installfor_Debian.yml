@@ -1,0 +1,6 @@
+---
+ - name: Installing webserver on Debin server
+       ansible.builtin.apt:
+         name: httpd
+         state: present
+         update_cache: true

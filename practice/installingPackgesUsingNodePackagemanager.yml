@@ -1,0 +1,29 @@
+---
+ - name: Play with install package using os pkg_mgr
+   hosts: dev
+   gatherfacts: yes
+   become: yes
+   tasks:
+    - name: install package using yum
+      ansible.builtin.yum:
+         name: "{{reqPkg.yum}}"
+         state: present
+         update_cache: true
+      when: ansible_facts.pkg_mgr == "yum"
+    - name: install package using dnf
+      ansible.builtin.dnf:
+         name: "{{reqPkg.dnf}}"
+         state: present
+         update_cache: true
+      when: ansible_facts.pkg_mgr == "dnf"
+    - name: install package using apt
+      ansible.builtin.apt:
+         name: "{{reqPkg.apt}}"
+         state: present
+         update_cache: true
+      when: ansible_facts.pkg_mgr == "apt"
+
+# ansible-playbook installingPackgesUsingNodePackagemanager.yml -e  "reqPkg=nginx"
+# ansible-playbook installingPackgesUsingNodePackagemanager.yml -e  "reqPkg=['nginx','vim','wget']"
+#ansible-playbook installingPackgesUsingNodePackagemanager.yml -e  '{"reqPkg": {"yum": "httpd", "dnf": "httpd", "apt": "apache2" }}'
+ansible-playbook installingPackgesUsingNodePackagemanager.yml -e  '{"reqPkg": {"yum": ["httpd" , "wget"], "dnf": ["httpd" , "curl"], "apt": ["apache2" , "vim"]} }'

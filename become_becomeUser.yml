@@ -1,0 +1,15 @@
+---
+ - name: Play with become optins
+   hosts: localhost
+   gatherfacts: false
+   become: yes
+    # become_user: root/databseadminusr
+    # become_method: sudo/pbrun
+   tasks:
+    - name: install nginx package
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+        # become: yes/true
+        # become_user: root
+        # become_method: sudo

@@ -1,0 +1,15 @@
+---
+  - name: Play to install webserver
+    hosts: "{{reqHosts}}"
+    gather_facts: true
+    become: true
+    tasks:
+      #  - import_task: installfor_Redhat.yml   
+      #    when: ansible_facts.os_family == "RedHat"
+      #  - import_task: installfor_Debian.yml
+      #    when: ansible_facts.os_family == "Debian" 
+      #  - include_task: installfor_Redhat.yml   
+      #    when: ansible_facts.os_family == "RedHat"
+      #  - include_task: installfor_Debian.yml   
+      #    when: ansible_facts.os_family == "Debian"
+     - include_task: installfor_{{ansible_facts.os_family}}.yml
