@@ -1,2 +1,54 @@
 ---
- - name: 
+ - name: Installing nginx, start nginx and display the status
+   hosts: localhost
+   gather_facts: false
+   tasks:
+     - block:
+         - name: Installing nginx
+           ansible.builtin.apt:
+              name: nginx
+              state: present
+         - name:  Starting nginx
+           ansible.builtin.service:
+             name: nginx
+             state: started
+       become: true
+     - name: Finding the status
+       ansible.builtin.service_facts:
+     - name: Displaying status of nginx
+       ansible.builtin.debug:
+         msg: "{{ansible_facts.services['nginx.service']}}" 
+
+
+
+# ---
+#  - name: Validate nginx installation and if not there install it
+#    hosts: localhost
+#    gather_facts: false
+#    tasks:
+#     - block:
+#         - name: Validating nginx installation
+#           ansible.builtin.command:
+#             cmd: 'ls -lrt /usr/sbin/nginx'
+#       rescue:
+#         - name: Installing nginx
+#           ansible.builtin.apt:
+#             name: nginx
+#             state: present
+#           become: true
+#       always:
+#         - name: Displau=ying message
+#           ansible.builtin.debug:
+#             msg: "Now we have nginx on host"
+
+    # - name: Validating nginx installation
+    #   ansible.builtin.command:
+    #     cmd: 'ls -lrt /usr/sbin/nginx'
+    #   register: validationResult
+    #   ignore_errors: yes
+    # - name: Installing nginx
+    #   ansible.builtin.apt:
+    #     name: nginx
+    #     state: present
+    #   become: true
+    #   when: validationResult.rc != 0
