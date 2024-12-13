@@ -1,0 +1,27 @@
+---
+ - name: Play to understand about error handling
+   hosts: localhost
+   gather_facts: false
+   tasks:
+    - name: Finding nginx version
+      ansible.builtin.command:
+        cmd: 'nginx -version'
+      register: nginxVersionOutput
+      failed_when: nginxVersionOutput.rc == 0
+    # - name: making playbook status as failed using fail module
+    #   ansible.builtin.fail:
+    #     msg: "Failing the playbook if the first task successed" 
+    #   failed_when: nginxVersionOutput.rc == 0
+
+    #   ignore_errors: true     
+    # - name: Finding uname info
+    #   ansible.builtin.command:
+    #     cmd: 'uname'
+    #   register: unameOutput
+    #   ignore_errors: true   
+    # - name: Displaying nginx version and uname details
+    #   ansible.builtin.debug:
+    #     msg:
+    #      - "nginx Version : {{nginxVersionOutput.stderr}}" 
+    #      - "uname : {{unameOutput.stdout}}" 
+  

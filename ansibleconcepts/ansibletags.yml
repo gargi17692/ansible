@@ -1,0 +1,43 @@
+---
+ - name: Playbook for tag uses
+   hosts: localhost
+   gather_facts: false
+   tasks:
+    - name: First Task
+      ansible.builtin.debug:
+        msg: "This is first task"
+      tags: 
+       - never
+       - first 
+       - fifo
+    - name: Second Task
+      ansible.builtin.debug:
+        msg: "This is second task"
+      tags: 
+       - never
+       - second  
+    - name: Third Task
+      ansible.builtin.debug:
+        msg: "This is third task" 
+      tags: 
+       - never
+       - third  
+       - always 
+    - name: Fourth Task
+      ansible.builtin.debug:
+        msg: "This is fourth task" 
+      tags: 
+       - never
+       - fourth 
+       - fifo  
+    - name: Fifth Task
+      ansible.builtin.debug:
+        msg: "This is fifth task"     
+      tags: 
+       - never
+       - fifth 
+
+# ansible-playbook ansibletags.yml --tag first
+# ansible-playbook ansibletags.yml --tag first,fourth
+# ansible-playbook ansibletags.yml -t fifo 
+ansible-playbook ansibletags.yml
