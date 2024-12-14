@@ -1,0 +1,15 @@
+---
+ - name: Play to find java version 
+   hosts: localhost
+   gather_facts: false
+   tasks: 
+    - name: Running the java version command
+      ansible.builtin.command:
+        cmd: 'java -version'
+      register: javaVersionOutput
+    - name: Finding java version when version command task is succeeded
+      ansible.builtin.set_fact:
+       javaVersion: "{{(javaVersionOutput.stderr|split)[2]|trim('\"')}}"
+    - name: Display java version
+      ansible.builtin.debug:
+        msg: "javaVersion : {{javaVersion}}"
