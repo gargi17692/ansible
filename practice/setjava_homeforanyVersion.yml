@@ -1,0 +1,39 @@
+---
+ - name: Setting JAVA_HOME
+   hosts: dev
+   gather_facts: false
+   vars:
+     reqLocation: /opt
+     targzFileName: "{{(url|split('/'))[-1]}}"
+     reqJavaVersion: "{{((targzFileNAme|split('_'))[0]|split('-'))[-1]}}"
+     javaHomePath: "{{reqLocation}}/jdk-{{reqJavaVersion}}"
+     targzFileNamePath: "{{reqLocation}}/{{targzFileName}}"
+   become: true
+   tasks:
+     - name: Downloading required tar.gz file
+       ansible.builtin.get_url:
+         url: "{{url}}"
+         dest: "{{targzFileNamePath}}"
+       delegate_to: localhost
+       run_once: true
+     - name: Extacing tar.gz file
+       ansible.builtin.unarchive:
+         src: "{{targzFileNamePath}}"
+         dest: "{{reqLocation}}"
+     - name: Removing old JAVA_HOME
+       ansible.builtin.lineinfile:
+         path: /etc/environment
+         regex: "export JAVA_HOME"
+         state: absent
+     - name: Setting JAVA_HOME variable
+       ansible.builtin.lineinfile:
+         path: /etc/environment
+         line: "export JAVA_HOME={{javaHomePath}}"
+         state: present 
+     - name: Removing tar.gz file
+       ansible.builtin.file:
+        path: "{{targzFileNamePath}}"
+        state: absent
+
+# ansible-playbook setjava_homefoeanyVersion.yml -e 'url=https://download.java.net/java/GA/jdk23/3c5b90190c68498b986a97f276efd28a/37/GPL/openjdk-23_linux-x64_bin.tar.gz'
+# ansible-playbook setjava_homefoeanyVersion.yml -e 'url=https://download.java.net/java/GA/jdk23/3c5b90190c68498b986a97f276efd28a/37/GPL/openjdk-21.0.2_linux-x64_bin.tar.gz'

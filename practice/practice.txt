@@ -1,2 +1,5 @@
 ansible all -m ansible.builtin.command -a 'uptime'
 ansible all -m ansible.builtin.package -a 'name=nginx state=present' -b # to run the command with sudo or root privilages
+
+https://download.java.net/java/GA/jdk23/3c5b90190c68498b986a97f276efd28a/37/GPL/openjdk-23_linux-x64_bin.tar.gz
+https://download.java.net/java/GA/jdk21.0.2/f2283984656d49d69e91c558476027ac/13/GPL/openjdk-21.0.2_linux-x64_bin.tar.gz

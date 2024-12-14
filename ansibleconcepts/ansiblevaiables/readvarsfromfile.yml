@@ -3,6 +3,7 @@
    var_files:
      - varswithYaml.yml
      - varswithJson.json
+     
    gather_facts: false  
    tasks:
      - ansible.builtin.debug:
