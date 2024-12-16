@@ -1,0 +1,49 @@
+---
+ - name: Play to install given package based on os_family
+   hosts: dev
+   gather_facts: true
+   vars:
+     repPackages:
+       - vim
+       - curl
+       - wget
+   tasks:
+     - name: Installing given package using yum
+       ansible.builtin.yum:
+         name: "{{item}}"
+         state: present
+         update_cache: true
+       loop: "{{reqPackages}}"  
+       when: ansible_facts.os_family == "RedHat"
+     - name: Installing given packages using apt
+       ansibe.builtin.apt:
+         name: "{{item}}"
+         state: present
+         update_cache: true
+       loop: "{{reqPackages}}"
+       when: ansible_facts.os_family == "Debian"  
+       
+#  - name: Play to install given package based on os_family
+#    hosts: localhost
+#    gather_facts: true
+#    vars:
+#      repPackages:
+#        - vim
+#        - curl
+#        - wget
+#    tasks:
+#      - name: Installing given package using yum
+#        ansible.builtin.yum:
+#          name: "{{reqPackages}}"
+#          state: present
+#          update_cache: true
+#        when: ansible_facts.os_family == "RedHat"
+#      - name: Installing given packages using apt
+#        ansibe.builtin.apt:
+#          name: "{{reqPackages}}"
+#          state: present
+#          update_cache: true
+#        when: ansible_facts.os_family == "Debian"     
+
+# By default apt and yum modules supports name as a list of values; for which we won't use loop generally.
+# but for better visibility about the status of indivisual list of objects at output we use loop.  
