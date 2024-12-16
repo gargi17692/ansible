@@ -1,0 +1,52 @@
+---
+ - name: Play to find java version 
+   hosts: localhost
+   gather_facts: false
+   tasks: 
+    - block:
+        - name: Running the java version command
+          ansible.builtin.command:
+            cmd: 'java -version'
+          register: javaVersionOutput
+          ignore_errors: true
+        - name: Finding java version when version command task is succeeded
+          ansible.builtin.set_fact:
+          javaVersion: "{{(javaVersionOutput.stderr|split)[2]|trim('\"')}}"
+          when: javaVersionOutput.rc == 0
+        - name: Finding java version when version command task is failed
+          ansible.builtin.set_fact:
+          javaVersion: "JavaNotFound"
+          when: javaVersionOutput.rc != 0
+        - name: Display java version
+          ansible.builtin.debug:
+            msg: "javaVersion : {{javaVersion}}"
+      tags:
+       - never
+       - java
+       - javanginx
+
+    - block:
+        - name: Running the nginx version command
+          ansible.builtin.command:
+            cmd: 'nginx -v'
+          register: nginxVersionOutput
+          ignore_errors: true
+        - name: Finding nginx version when version command task is succeeded
+          ansible.builtin.set_fact:
+          nginxVersion: "{{(nginxVersionOutput.stderr|split('/'))[-1]}}"
+          when: nginxVersionOutput.rc == 0
+        - name: Finding nginx version when version command task is failed
+          ansible.builtin.set_fact:
+          nginxVersion: "NginxNotFound"
+          when: nginxVersionOutput.rc != 0
+        - name: Display nginx version
+          ansible.builtin.debug:
+            msg: "nginxVersion: {{nginxVersion}}"
+      tags:
+       - never
+       - nginx
+       - javanginx
+
+# ansible-playbook block_rescue_handlers_tags.yml -t javanginx
+# ansible-playbook block_rescue_handlers_tags.yml -t java
+# ansible-playbook block_rescue_handlers_tags.yml -t nginx
